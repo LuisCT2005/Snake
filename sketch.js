@@ -1,4 +1,3 @@
-
 const cols = 15;
 const rows = 17;
 
@@ -15,7 +14,7 @@ let manzana;
 let pulsado;
 
 function setup() {
-  let canvas = createCanvas(600, 600);
+  let canvas = createCanvas(min(windowWidth, windowHeight), min(windowWidth, windowHeight));
   canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
   frameRate(5);
   tamañoX = width / cols;
@@ -25,11 +24,11 @@ function setup() {
     x: floor(random(cols)),
     y: floor(random(rows)),
   };
-  
+
   let inicioX = 0;
-  let inicioY = floor(rows/2);
-  for (let i = 0; i < longitud; i++){
-   serpiente.push({x : inicioX + i, y: inicioY});
+  let inicioY = floor(rows / 2);
+  for (let i = 0; i < longitud; i++) {
+    serpiente.push({ x: inicioX + i, y: inicioY });
   }
 
   // Add touch event listeners for mobile controls
@@ -49,11 +48,20 @@ function draw() {
 }
 
 function handleTouchStart(event) {
+  event.preventDefault(); // Evita el desplazamiento de la página
+
+  if (juegoTerminado) {
+    iniciarJuego(); // Reinicia el juego si está terminado
+    return;
+  }
+
   const touch = event.touches[0];
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
 }
+
 function handleTouchMove(event) {
+  event.preventDefault(); // Evita el desplazamiento de la página
   if (!touchStartX || !touchStartY) return;
 
   const touch = event.touches[0];
@@ -79,9 +87,16 @@ function handleTouchMove(event) {
     }
   }
 
- // Reset touch start coordinates
- touchStartX = null;
- touchStartY = null;
+  // Reset touch start coordinates
+  touchStartX = null;
+  touchStartY = null;
+}
+
+
+function windowResized() {
+  resizeCanvas(min(windowWidth, windowHeight), min(windowWidth, windowHeight));
+  tamañoX = width / cols;
+  tamañoY = height / rows;
 }
 function iniciarJuego() {
   // Reiniciar todas las variables del juego
@@ -193,4 +208,4 @@ function controlManzana(){
    let cola = serpiente[0];
     serpiente.unshift({ x: cola.x, y: cola.y });
  }
-} 
+}
