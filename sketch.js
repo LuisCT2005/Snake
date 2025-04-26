@@ -31,6 +31,10 @@ function setup() {
   for (let i = 0; i < longitud; i++){
    serpiente.push({x : inicioX + i, y: inicioY});
   }
+
+  // Add touch event listeners for mobile controls
+  canvas.elt.addEventListener("touchstart", handleTouchStart, false);
+  canvas.elt.addEventListener("touchmove", handleTouchMove, false);
 }
 
 function draw() {
@@ -44,8 +48,41 @@ function draw() {
   }
 }
 
+function handleTouchStart(event) {
+  const touch = event.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+}
+function handleTouchMove(event) {
+  if (!touchStartX || !touchStartY) return;
 
+  const touch = event.touches[0];
+  const touchEndX = touch.clientX;
+  const touchEndY = touch.clientY;
 
+  const diffX = touchEndX - touchStartX;
+  const diffY = touchEndY - touchStartY;
+
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    // Horizontal swipe
+    if (diffX > 0 && direccion.x === 0) {
+      direccionPendiente = { x: 1, y: 0 }; // Swipe right
+    } else if (diffX < 0 && direccion.x === 0) {
+      direccionPendiente = { x: -1, y: 0 }; // Swipe left
+    }
+  } else {
+    // Vertical swipe
+    if (diffY > 0 && direccion.y === 0) {
+      direccionPendiente = { x: 0, y: 1 }; // Swipe down
+    } else if (diffY < 0 && direccion.y === 0) {
+      direccionPendiente = { x: 0, y: -1 }; // Swipe up
+    }
+  }
+
+ // Reset touch start coordinates
+ touchStartX = null;
+ touchStartY = null;
+}
 function iniciarJuego() {
   // Reiniciar todas las variables del juego
   longitud = 4;
