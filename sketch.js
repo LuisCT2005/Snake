@@ -14,7 +14,7 @@ let manzana;
 let pulsado;
 
 function setup() {
-  let canvas = createCanvas(min(windowWidth, windowHeight), min(windowWidth, windowHeight));
+  let canvas = createCanvas(min(windowWidth, windowHeight)*0.8, min(windowWidth, windowHeight)*0.8);
   canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
   frameRate(5);
   tamañoX = width / cols;
