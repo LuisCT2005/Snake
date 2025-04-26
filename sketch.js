@@ -15,7 +15,7 @@ let pulsado;
 
 function setup() {
   let canvas = createCanvas(min(windowWidth, windowHeight)*0.8, min(windowWidth, windowHeight)*0.8);
-  canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
+  canvas.position((windowWidth - width) / 2 + 20, (windowHeight - height) / 2 + 20);
   frameRate(5);
   tamañoX = width / cols;
   tamañoY = height / rows;
@@ -94,7 +94,7 @@ function handleTouchMove(event) {
 
 
 function windowResized() {
-  resizeCanvas(min(windowWidth, windowHeight), min(windowWidth, windowHeight));
+  resizeCanvas(min(windowWidth, windowHeight)*0.5 , min(windowWidth, windowHeight))*0.5;
   tamañoX = width / cols;
   tamañoY = height / rows;
 }
